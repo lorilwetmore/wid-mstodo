@@ -33,6 +33,7 @@ Wait a bit and authentication should
 
 - At the moment the task folder is still hard coded in line 150 of the job, you would need to adapt this to your own folder id.
 - The refresh token is currently stored in the root directory of your dashboard. Since this token should be considered sensitive, I will need to find better storage for persistence across reboots.
+- Proper implementation of server side paging is still missing. By default the server provides ten tasks at once and provides an URL for calling the next ten tasks. I am manually asking for 500 tasks at the moment.
 - There's still a lot of console output for debugging stuff...
 
 ## Disclaimer
