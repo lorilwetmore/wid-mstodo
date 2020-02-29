@@ -33,3 +33,7 @@ Wait a bit and authentication should
 
 - At the moment the task folder is still hard coded in line 150 of the job, you would need to adapt this to your own folder id.
 - The refresh token is currently stored in the root directory of your dashboard. Since this token should be considered sensitive, I will need to find better storage for persistence across reboots.
+
+## Disclaimer
+
+I am no expert in ruby or even web technologies, my experience is solely in embedded programming. So many of the things in this widget might not be done in the smartest way. My main requirement is fulfilled: my tasks are shown on my dashboard. Hope this works for you, too. I am happy to hear about improvement possibilities, though.
