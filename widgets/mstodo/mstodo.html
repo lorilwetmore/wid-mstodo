@@ -1,0 +1,12 @@
+<div style="position:absolute; float:left; font-size:xx-large; top:12px; left:20px"><i data-bind-class="cornersymbol"></i></div>
+
+<ul style="position:relative; vertical-align:top; height: 85%; padding-top:20px">
+  <li data-foreach-task="tasks">
+    <span class="label" data-bind="task.subject"></span>
+  </li>
+</ul>
+
+<h3 id="notification" class="title" data-bind="notification"></h3>
+
+<p class="more-info" data-bind="moreinfo"></p>
+<p class="updated-at" data-bind="updatedAtMessage"></p>

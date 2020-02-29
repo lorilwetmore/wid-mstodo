@@ -1,0 +1,60 @@
+// ----------------------------------------------------------------------------
+// Sass declarations
+// ----------------------------------------------------------------------------
+$background-color:  #455C7B;
+$value-color:       #fff;
+
+$title-color:       rgba(255, 255, 255, 1);
+$label-color:       rgba(255, 255, 255, 1);
+$moreinfo-color:    rgba(255, 255, 255, 0.7);
+
+// ----------------------------------------------------------------------------
+// Widget-list styles
+// ----------------------------------------------------------------------------
+.widget-mstodo {
+
+  background-color: $background-color;
+  vertical-align: top;
+
+  ul {
+    margin: 0 15px;
+    text-align: left;
+    color: $label-color;
+    list-style: none;
+  }
+
+  li {
+    padding-left: 1.2em;
+    margin-bottom: 5px;
+  }
+  li:before {
+    content: "\f096"; /* FontAwesome Unicode */
+    font-family: FontAwesome;
+    font-size: small;
+    display: inline-block;
+    margin-left: -1.2em; /* same as padding-left set on li */
+    width: 1.2em; /* same as padding-left set on li */
+  }
+
+  .label {
+    color: $label-color;
+  }
+
+  .more-info {
+    color: $moreinfo-color;
+  }
+
+ .subtask {
+    font-size: 12px;
+    padding-left:15px;
+ }
+
+}
+
+
+
+
+
+
+
+
