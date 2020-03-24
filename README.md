@@ -1,6 +1,6 @@
 # mstodo
 Widget for [smashing](https://github.com/Smashing/smashing) dashboard, accessing [Microsoft To Do](https://to-do.microsoft.com/).
-Microsoft To Do is the successor of Wunderlist - migration of tasks is easy to handle, authentication got a bit more complex.
+Microsoft To Do is the successor of Wunderlist - migration of tasks is easy to handle, authentication became a bit more complex.
 
 ## Description
 ![](https://user-images.githubusercontent.com/61623490/75611344-076bbd00-5b1a-11ea-8d8c-cb47341f759c.png)
