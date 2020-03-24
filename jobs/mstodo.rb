@@ -1,5 +1,6 @@
 require 'rest-client'
 require 'rufus-scheduler'
+#require 'objspace'
 
 MS_GRANTTYPE = 'urn:ietf:params:oauth:grant-type:device_code'
 
@@ -30,13 +31,13 @@ class DO_msAuth_RefreshToken
            client_id: MS_CLIENTID
          }
        )
-      puts "successfully refreshed token"
+      #puts "successfully refreshed token"
       $msAuth_Authenticated = 1
       $msAuth_TokenRequest = JSON.parse(msAuth_TokenRequestResponse)
       msAuth_RefreshTime=$msAuth_TokenRequest["expires_in"].to_i
       $msAuth_RefreshToken=$msAuth_TokenRequest["refresh_token"]
       $msAuth_CurrentToken=$msAuth_TokenRequest["access_token"]
-      puts $msAuth_CurrentToken
+      #puts $msAuth_CurrentToken
       tokenFile = File.open('refresh_token','w')
       tokenFile.puts $msAuth_RefreshToken
       tokenFile.close
@@ -144,7 +145,7 @@ class DO_msTasks_LoadTasks
   def call(job)
     @tasklist = []
     if $msAuth_Authenticated
-      puts "Loading Tasks"
+      #puts "Loading Tasks"
       begin
         msTasks_Response = \
             RestClient.get("https://outlook.office.com/api/v2.0/me/taskfolders('AQMkADAwATM0MDAAMS1iNmI0LTZkYTgtMDACLTAwCgAuAAADn7XOtKava0a6j0LGSnyvAwEAQOKQCG_6GEmlj14G760_1QADL07kYgAAAA==')/tasks?%24top=500", {:'Authorization' => "Bearer " + $msAuth_CurrentToken })
@@ -153,9 +154,11 @@ class DO_msTasks_LoadTasks
           @tasklist.push(subject: task['Subject'].to_str) unless task['Status'].to_str == "Completed"
         end
       rescue
-
+        puts "some issue in retrieving tasks"
       end
-      if tasklist.size == 0
+      msTasks_Response = nil
+      msTasks_ResponseParsed = nil
+      if @tasklist.size == 0
         @tasklist = {}
         @tasklist['notification'] = 'No open tasks'
       end
@@ -210,18 +213,17 @@ else
   $devtokenjob = SCHEDULER.schedule_every '60s', handler_msAuth_DevTokenJob, :mutex => 'msauthmutex', :tags => 'devtoken', :first_in =>10,  allow_overlapping:false
 end
 
-$taskloader = SCHEDULER.schedule_every '1m', handler_msTasks_LoadTasks, :mutex => 'msauthmutex', :tags => 'loadtasks', :first_in => 5, allow_overlapping:false
+$taskloader = SCHEDULER.schedule_every '1m', handler_msTasks_LoadTasks, :mutex => 'msauthmutex', :tags => 'loadtasks', :first_in => 15, allow_overlapping:false
 
 #############################################################################################################################
 ## This job collects infos via the API and posts them to the widget
 #############################################################################################################################
 SCHEDULER.every '60s', :first_in => 20, allow_overlapping:false do |displayjob|
-puts "displayjob"
+#puts "displayjob"
   if $msAuth_Authenticated == 0
     send_event('mstodo',  tasks: [], notification: handler_msAuth_DevAuthJob.userCode.to_s , cornersymbol: "fa fa-clipboard fw"  )
     puts "data sent with error"
   else
     send_event('mstodo', { tasks: handler_msTasks_LoadTasks.tasklist, cornersymbol: "fa fa-clipboard fw" } )
-    puts "data sent without error"
   end
 end
